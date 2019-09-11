@@ -1,0 +1,19 @@
+{
+  "training_set_path": "/home/peng/PycharmProjects/feature_match/result/triples.tsv",
+  "execution_mode": "Training_mode",
+  "kg_embedding_model_name": "TransE",
+  "embedding_dim": 50,
+  "normalization_of_entities": 2,
+  "scoring_function": 1,
+  "margin_loss": 1,
+  "learning_rate": 0.01,
+  "batch_size": 32,
+  "num_epochs": 1000,
+  "test_set_ratio": 0.1,
+  "filter_negative_triples": true,
+  "random_seed": 2,
+  "preferred_device": "cpu",
+  "pykeen-version": "0.0.26",
+  "num_entities": 2459,
+  "num_relations": 3
+}
