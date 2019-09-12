@@ -24,3 +24,5 @@ for row in df_filtered.itertuples(index=False):
         f.write(feature+'\t'+predicates[2]+'\t'+gene+'\n')
 
 f.close()
+
+
