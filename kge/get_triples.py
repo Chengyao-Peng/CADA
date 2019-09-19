@@ -8,7 +8,7 @@ f = open("/home/peng/PycharmProjects/feature_match/result/triples.tsv", "w")
 items = ['Case_ID', 'Gene', 'HPO_Features']
 predicates = ['has_disorder', 'has_feature', 'is_feature_of']
 
-df = pd.read_excel("/home/peng/PycharmProjects/feature_match/data/SupplementaryTable_PEDIA/SupplementaryTable1_03092019.xlsx")
+df = pd.read_excel("/home/peng/PycharmProjects/feature_match/data/supplementaryTable_PEDIA/SupplementaryTable1_03092019.xlsx")
 df = df.head(679)
 df_filtered = df.filter(items=['Case ID', 'Gene', 'HPO Features'])
 df_filtered.columns = df_filtered.columns.str.replace(' ', '_')

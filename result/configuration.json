@@ -15,5 +15,8 @@
   "preferred_device": "cpu",
   "pykeen-version": "0.0.26",
   "num_entities": 2459,
-  "num_relations": 3
-}
+  "num_relations": 3,
+
+
+
+
