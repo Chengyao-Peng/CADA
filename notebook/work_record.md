@@ -1,11 +1,3 @@
-I'm Chengyao. Thank you for this meeting. I'm responsible for a new project, which plan to develop a new algorithm to help diagnosis, like phenomizer does.
-
-But in this project, we don't need any information regarding photos or the F2G project.
-
-We just need highly curated features and the final diagnosis. 
-
-
-
 Selected features: by doctors(is_present:1; reliable？) 
 
 
@@ -26,87 +18,79 @@ Detected syndromes: suggested by algorithm? final diagnosis?
 
 ## Data preparation
 
-### 1. Supplement table from PEDIA
+### 1. Supplement table from PEDIA(六百多)
 
-​		**<u>OMIM IDs</u>：126 Autosome ; 3 Xchromosome ; 4 Ychromosome ; 5 Mitochondria** 
+​		OMIM IDs：126 Autosome ; 3 Xchromosome ; 4 Ychromosome ; 5 Mitochondria 
 
-​		**<u>Diagnosis</u>: Disease name, some with abbreviation**
+​		**<u>Diagnosis: Disease name, some with abbreviation</u>**
 
-​		**<u>In Deep Gestalt test set</u>: n or y**
+​		**<u>Case ID: Case ids</u>**
 
-​		PMID: 
-
-​		**<u>Case ID</u>: Case ids**
-
-​		**<u>Gene</u>: Gene names** 
-
-​		HGVS：	
-
-​		PEDIA rank: 
+​		<u>**Gene: Gene names**</u> 
 
 ​		N° of features: 
 
-​		**<u>HPO Features</u>: HPO Term Names**
+​		**<u>HPO Features</u><u>: HPO term names</u>**
 
 ​		N° of absent features:	
 
 ​		Absent HPO Features:	
 
-​		Variation ID:	
+​		**<u>HPO : HPO term ids</u>**
 
-​		Clinvar Accession Number:	
 
-​		**<u>HPO</u> : HPO term ids**
-
-​		Absent HPO	
 
 ### 2. HPO
 
 #### 		2.1. Ontology(hp.obo): block by block
 
-​				id: HPO term ids
+​							<u>**id: HPO term ids**</u>
 
-​				synonyms
+​							name: HPO term names
+
+​							synonym: synonyms (put it in the data contained in each node or make a map outside KG)
+
+​				**<u>is_a: HPO term ids ! HPO term names</u>**
 
 #### 		2.2. Annotation
 
+​			1) phenotype_annotation.tab: contains manual and semi-automated annotations(176494行)
+
+​							**<u>3rd column: Disease name, some with subtypes</u>**
+
+​							**<u>4th column: HPO term ids</u>**
+
+​			2) phenotype_annotation_hpoteam.tab: contains annotations made manually(100406行)
+
+​							**<u>3rd column: Disease name, some with subtypes</u>**
+
+​							**<u>4th column: HPO term ids</u>**
+
+​			3) negative_phenotype_annotation.tab: contains negative annotations(i.e. a disease is NOT associated with this HPO-term)(可以apply作downstream，906行)
+
+​			4) ALL_SOURCES_ALL_FREQUENCIES_genes_to_phenotype.txt: provides a link between genes and HPO terms. All phenotype terms associated with any disease that is associated with variants in a gene are assigned to that gene in this file. Other files are available on our Jenkins server that filter terms according to provenance of the annotation and frequency of the features in the disease.(161004行)
+
+​							**<u>2nd column: Gene names</u>**
+
+​							**<u>3rd column: HPO Term Names</u>**（一个基因的所有的有关phenotypes）
+
+​							**<u>4th column: HPO term ids</u>**
+
+​			5) ALL_SOURCES_ALL_FREQUENCIES_phenotype_to_genes.txt: a analogous, but instead provides links from HPO terms to genes.(552815行)
+
+​							**<u>1st column: HPO term ids</u>**
+
+​							**<u>2nd column: HPO-Name</u>**
+
+​							**<u>4th column: Gene-Name</u>**	（一个phenotype有关的所有基因）
 
 
-​			 **2nd row: Gene names**
-
-​		     **3rd row: HPO Term Names**
-
-​			 **4th row: HPO term ids**
-
-​			1) phenotype_annotation.tab: contains manual and semi-automated annotations
-
-​							**3rd row: Disease name, some with subtypes**
-
-​							**4th row: HPO term ids**
-
-​			2) phenotype_annotation_hpoteam.tab: contains annotations made manually
-
-​														
-
-​							
-
-​			3) negative_phenotype_annotation.tab: contains negative annotations(i.e. a disease is NOT associated with this HPO-term)
-
-​			4) ALL_SOURCES_ALL_FREQUENCIES_genes_to_phenotype.txt: provides a link between genes and HPO terms. All phenotype terms associated with any disease that is associated with variants in a gene are assigned to that gene in this file. Other files are available on our Jenkins server that filter terms according to provenance of the annotation and frequency of the features in the disease.
-
-​			5) ALL_SOURCES_ALL_FREQUENCIES_phenotype_to_genes.txt: a analogous, but instead provides links from HPO terms to genes.
-
-​		**2nd row: Gene names**
-
-​		**3rd row: HPO Term Names**
-
-​		**4th row: HPO term ids**
 
 ### 3. Face2Gene
 
-​		**Case ID: Case ids**
+​		Selected features: case_id, feature_name, hpo_id, is_present
 
-​		**feature_name: HPO Term Names**ls
+​		Selected syndromes: case_id, syndrrome_name(molecularly_diagnoses的行）去掉那些有comorbidity的
 
 
 
