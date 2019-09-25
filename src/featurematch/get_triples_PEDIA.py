@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import pandas as pd
-import numpy as np
 
-f = open("/home/peng/PycharmProjects/feature_match/result/triples.tsv", "w")
+f = open("../../result/triples_PEDIA.tsv", "w")
 
-items = ['Case_ID', 'Gene', 'HPO_Features']
+#items = ['Case_ID', 'Gene', 'HPO_Features']
+items = ['Case_ID', 'Gene', 'HPO']
 predicates = ['has_disorder', 'has_feature', 'is_feature_of']
 
-df = pd.read_excel("/home/peng/PycharmProjects/feature_match/data/supplementaryTable_PEDIA/SupplementaryTable1_03092019.xlsx")
+df = pd.read_excel("../../data/raw/supplementaryTable_PEDIA/SupplementaryTable1_03092019.xlsx")
 df = df.head(679)
-df_filtered = df.filter(items=['Case ID', 'Gene', 'HPO Features'])
+
+#df_filtered = df.filter(items=['Case ID', 'Gene', 'HPO Features'])
+df_filtered = df.filter(items=['Case ID', 'Gene', 'HPO'])
 df_filtered.columns = df_filtered.columns.str.replace(' ', '_')
 
 for row in df_filtered.itertuples(index=False):

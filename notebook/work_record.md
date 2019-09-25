@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 Selected features: by doctors(is_present:1; reliable？) 
 
 
@@ -50,7 +58,7 @@ Detected syndromes: suggested by algorithm? final diagnosis?
 
 ​							synonym: synonyms (put it in the data contained in each node or make a map outside KG)
 
-​				**<u>is_a: HPO term ids ! HPO term names</u>**
+​							**<u>is_a: HPO term ids ! HPO term names</u>**
 
 #### 		2.2. Annotation
 
@@ -90,7 +98,7 @@ Detected syndromes: suggested by algorithm? final diagnosis?
 
 ​		Selected features: case_id, feature_name, hpo_id, is_present
 
-​		Selected syndromes: case_id, syndrrome_name(molecularly_diagnoses的行）去掉那些有comorbidity的
+​		Selected syndromes: case_id, syndrrome_name (molecularly_diagnoses的行）去掉那些有comorbidity的
 
 
 
