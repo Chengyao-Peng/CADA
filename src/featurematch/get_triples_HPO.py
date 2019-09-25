@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import pandas as pd
-try: import obonet
-except:
-    import os
-    os.system('pip install requests')
-    import requests
+import obonet
 
 f = open("../result/triples_PEDIA.tsv", "w")
 
