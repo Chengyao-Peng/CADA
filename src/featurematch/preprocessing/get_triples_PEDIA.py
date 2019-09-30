@@ -20,7 +20,6 @@ with open("../../data/processed/supplementary_table_PEDIA/triples_PEDIA.tsv", "w
         gene = getattr(row, items[1])
         f.write(case+'\t'+predicates[0]+'\t'+gene+'\n')
         for feature in features:
-            feature = "_".join(feature.split())
             f.write(case+'\t'+predicates[1]+'\t'+feature+'\n')
             f.write(feature+'\t'+predicates[2]+'\t'+gene+'\n')
 
