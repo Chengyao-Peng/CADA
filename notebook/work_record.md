@@ -1,8 +1,7 @@
 >>>Setting virtual environment
 https://click.palletsprojects.com/en/7.x/quickstart/#virtualenv
 
->>>gat2vec
-attribute
+>>>Node2vec(gat2vec)(attribute)
 
 
 
