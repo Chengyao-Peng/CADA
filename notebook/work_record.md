@@ -1,5 +1,7 @@
+>>>来了？
+>>>
 >>>Setting virtual environment
-https://click.palletsprojects.com/en/7.x/quickstart/#virtualenv
+>>>https://click.palletsprojects.com/en/7.x/quickstart/#virtualenv
 
 >>>Node2vec(gat2vec)(attribute)
 
