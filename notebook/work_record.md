@@ -5,6 +5,11 @@
 
 >>>Node2vec(gat2vec)(attribute)
 
+>>>networkx
+
+
+
+
 
 
 
@@ -107,3 +112,6 @@ Detected syndromes: suggested by algorithm? final diagnosis?
 
 ### 4. Clinvar
 
+
+
+![files_relationships](/Users/teiyouhou/PycharmProjects/featurematch/notebook/files_relationships.jpeg)
