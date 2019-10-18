@@ -1,0 +1,1 @@
+cat disease_hpo_annotation/disease_mapped_hpo_annotation_omim.triples hpo_hierarchical_information/hierarchical.tsv > disease_mapped_omim_hpo_annotaion_with_hierarchical.triples

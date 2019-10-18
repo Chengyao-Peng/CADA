@@ -1,0 +1,17 @@
+#From Orphanet annotations
+
+'Marshall syndrome'
+('Autosomal recessive Stickler syndrome', 'Stickler syndrome type 1', 'Stickler syndrome', 'Craniolenticulosutural dysplasia', 'Dysmorphism-pectus carinatum-joint laxity syndrome', 'Spondyloepiphyseal dysplasia congenita', 'Autosomal recessive distal osteolysis syndrome', 'Tetrasomy 12p', 'Craniofacial-deafness-hand syndrome','Multiple epiphyseal dysplasia, Beighton type')
+
+'Multiple congenital anomalies-hypotonia-seizures syndrome' from Orphanet annotations
+('PEHO syndrome', 'Tetrasomy 5p', 'Autosomal dominant intellectual disability-craniofacial anomalies-cardiac defects syndrome', '17p13.3 microduplication syndrome', 'Okamoto syndrome', '8q24.3 microdeletion syndrome', 'X-linked intellectual disability, Cantagrel type', 'Dysmorphism-short stature-deafness-disorder of sex development syndrome', 'Kleefstra syndrome')
+
+
+#From DECIPHER, OMIM, Orphabet annotations 
+
+'Marshall syndrome' 
+('Stickler syndrome', 'Stickler syndrome type 1', 'Autosomal recessive Stickler syndrome', 'Spondyloepiphyseal dysplasia congenita', 'STICKLER SYNDROME, TYPE II', 'AYME-GRIPP SYNDROME; AYGRP', '#154780 MARSHALL SYNDROME; MRSHS', 'Autosomal recessive distal osteolysis syndrome', 'Pectus excavatum-macrocephaly-dysplastic nails syndrome', 'Kniest dysplasia')
+
+'Multiple congenital anomalies-hypotonia-seizures syndrome'
+('MULTIPLE CONGENITAL ANOMALIES-HYPOTONIA-SEIZURES SYNDROME 1','PITT-HOPKINS SYNDROME', 'BRAIN MALFORMATIONS WITH OR WITHOUT URINARY TRACT DEFECTS; BRMUTD', 'AGENESIS OF THE CORPUS CALLOSUM AND CONGENITAL LYMPHEDEMA', 'Fryns syndrome', 'KAGAMI-OGATA SYNDROME', 'OPITZ GBBB SYNDROME, TYPE II', 'HEART AND BRAIN MALFORMATION SYNDROME', 'NEUROPATHY, CONGENITAL HYPOMYELINATING, 3; CHN3', 'Craniofacial dyssynostosis')
+

@@ -1,5 +1,5 @@
 {
-  "training_set_path": "/home/peng/PycharmProjects/feature_match/result/triples.tsv",
+  "training_set_path": "/home/peng/PycharmProjects/featurematch/data/processed/supplementary_table_PEDIA/triples_PEDIA.tsv",
   "execution_mode": "Training_mode",
   "kg_embedding_model_name": "TransE",
   "embedding_dim": 50,
@@ -14,9 +14,6 @@
   "random_seed": 2,
   "preferred_device": "cpu",
   "pykeen-version": "0.0.26",
-  "num_entities": 2459,
-  "num_relations": 3,
-
-
-
-
+  "num_entities": 2572,
+  "num_relations": 5
+}
