@@ -1,3 +1,17 @@
+Face2Gene ID	401863
+Submitter	Yasemine Dincer
+Institute
+present_hpo_id	HP:0007359	HP:0001508	HP:0001627	HP:0000252
+present_hpo_name	focal seizures	failure to thrive	Abnormal heart morphology	Microcephaly
+absent_hpo_id
+absent_hpo_name
+selected_gene_name	MCCC2
+selected_gene_id	64087
+selected_gene_omim_id	609014
+syndrome_omim_id	210210
+syndrome_name	3-METHYLCROTONYL-CoA CARBOXYLASE 2 DEFICIENCY
+diagnosis	CLINICALLY_DIAGNOSED
+
 Face2Gene ID	195476
 Submitter	Dr. Paola Medina
 Institute	IMSS

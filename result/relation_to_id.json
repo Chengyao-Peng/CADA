@@ -1,7 +1,0 @@
-{
-  "has_disease": 0,
-  "has_feature": 1,
-  "has_mutation": 2,
-  "is_feature_of_disease": 3,
-  "is_feature_of_mutation": 4
-}
