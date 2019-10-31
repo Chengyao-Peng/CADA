@@ -1,7 +1,7 @@
 import pandas as pd
 #change orphnet id to OMIM id if available
 
-df = pd.read_csv('../../../../data/raw/mapping/all-mondo-disease-terms.tsv', sep='\t', header=0)[['Orphanet','OMIM']].dropna()
+df = pd.read_csv('../../../../data/raw/mapping/all-70patients-disease-terms.tsv', sep='\t', header=0)[['Orphanet','OMIM']].dropna()
 dict_orpha_omim = dict(zip(df.Orphanet, df.OMIM))
 
 

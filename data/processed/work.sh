@@ -1,3 +1,3 @@
-cat f2g/fm.newest_hpo.triples f2g/tucases.newest_hpo.triples supplementary_table_PEDIA/pedia.newest_hpo.triples hpo/disease-gene/diseases_to_genes_omim_mapped.triples hpo/disease-hpo/diseases_hpos_omim_mapped.triples hpo/gene-hpo/genes_hpos_all_frequency.triples hpo/hpo_hierarchical_information/hierarchical.triples > all.triples
-cat f2g/fm.newest_hpo.triples f2g/tucases.newest_hpo.triples supplementary_table_PEDIA/pedia.newest_hpo.triples hpo/disease-gene/diseases_to_genes_omim_mapped.triples hpo/disease-hpo/diseases_hpos_omim_mapped_omim.triples hpo/gene-hpo/genes_hpos_all_frequency.triples hpo/hpo_hierarchical_information/hierarchical.triples > omim.triples
+cat hpo/disease-gene/diseases_to_genes.triples hpo/disease-hpo/diseases_hpos.triples hpo/gene-hpo/genes_hpos_all_frequency.triples hpo/hpo_hierarchical_information/hierarchical.triples patients/triple/training.triples > final/with_patients/with_patients.triples
 
+cat hpo/disease-gene/diseases_to_genes.triples hpo/disease-hpo/diseases_hpos.triples hpo/gene-hpo/genes_hpos_all_frequency.triples hpo/hpo_hierarchical_information/hierarchical.triples > final/without_patients/without_patients.triples

@@ -1,0 +1,2 @@
+grep 'OMIM' diseases_to_genes_omim_mapped.triples > diseases_to_genes_omim_mapped_omim.triples
+grep 'ORPHA' diseases_to_genes_omim_mapped.triples > diseases_to_genes_omim_mapped_unmapped_orphanet.triples
