@@ -46,7 +46,7 @@ Recent work further takes into account uncertainties of entities, and models the
 
 
 
-
+https://medium.com/@zafaralibagh6/a-simple-word2vec-tutorial-61e64e38a6a1
 
 Skip-gram model
 
