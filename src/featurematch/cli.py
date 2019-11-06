@@ -5,6 +5,10 @@ import click
 from typing import TextIO
 from .node2vec.embeddings import embeddings
 
+__all__ = [
+    'main',
+]
+
 @click.command()
 @click.argument('config', type=click.File())
 

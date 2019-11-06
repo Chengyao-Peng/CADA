@@ -39,6 +39,8 @@ def embeddings(
 
     G = nx.Graph()
     G.add_edges_from(tuple_edges)
+
+
     Gcc = sorted(nx.connected_components(G), key=len, reverse=True)
     G0 = G.subgraph(Gcc[0])
 
@@ -58,3 +60,4 @@ def embeddings(
     model = node2vec.fit(window=window, min_count=1, batch_words=4)
     model.wv.save_word2vec_format(embedding_outdir)
     model.save(model_outdir)
+
