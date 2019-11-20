@@ -4,7 +4,7 @@
 import os
 import pronto
 import collections
-from featurematch.paths import DATA_DIRECTORY
+from CADA.paths import DATA_DIRECTORY
 import itertools
 
 def triples_hierarchical_hpo():

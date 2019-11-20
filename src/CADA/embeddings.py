@@ -5,11 +5,11 @@ import os
 import pandas as pd
 import networkx as nx
 from node2vec import Node2Vec
-from featurematch.paths import DATA_DIRECTORY, MODEL_DIRECTORY
-from featurematch.split import split
-from featurematch.triples_patients import triples_patients
-from featurematch.triples_hierarchical_hpo import triples_hierarchical_hpo
-from featurematch.triples_disease_hpo import triples_disease_hpo
+from CADA.paths import DATA_DIRECTORY, MODEL_DIRECTORY
+from CADA.split import split
+from CADA.triples_patients import triples_patients
+from CADA.triples_hierarchical_hpo import triples_hierarchical_hpo
+from CADA.triples_disease_hpo import triples_disease_hpo
 
 
 def embeddings(

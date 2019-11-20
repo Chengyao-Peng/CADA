@@ -3,7 +3,7 @@
 import json
 import click
 from typing import TextIO
-from featurematch.embeddings import embeddings
+from CADA.embeddings import embeddings
 
 __all__ = [
     'main',

@@ -2,8 +2,8 @@ import os
 import pandas as pd
 from pronto import Ontology
 from sklearn.model_selection import train_test_split
-from featurematch.paths import DATA_DIRECTORY
-from featurematch.reform import *
+from CADA.paths import DATA_DIRECTORY
+from CADA.reform import *
 
 def split(train_size, output_directory):
     out_all = os.path.join(output_directory, 'patient.tsv')
@@ -14,9 +14,10 @@ def split(train_size, output_directory):
     old_new_hpo = {}
     hpo_dir = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'hpo_hierarchical_information', 'hp.obo')
     hpo = Ontology(hpo_dir)
+
     for term in hpo.terms():
         id = term.id
-        for alt_id in term.alternate_ids():
+        for alt_id in term.alternate_ids:
             old_new_hpo[alt_id] = id
     patients += reform_pedia(old_new_hpo)
     patients += reform_f2g_fm(old_new_hpo)
@@ -27,9 +28,12 @@ def split(train_size, output_directory):
     # split patients into training set and test set
     patients = pd.DataFrame(patients)
     train, test = train_test_split(patients, train_size=train_size)
-    patients.to_csv(out_all, index=False, header=None, sep = '\t')
-    train.to_csv(out_train, index=False, header=None, sep = '\t')
-    test.to_csv(out_test, index=False, header=None, sep = '\t')
+    patients.to_csv(out_all, index=False, header=None, sep='\t')
+    train.to_csv(out_train, index=False, header=None, sep='\t')
+    test.to_csv(out_test, index=False, header=None, sep='\t')
+    train = train.values.tolist()
+    test = test.values.tolist()
+    print(train)
 
     return train, test
 

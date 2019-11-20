@@ -1,6 +1,5 @@
-import pandas as pd
-
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 def triples_patients(patients):
     predicates = ['has_feature', 'has_disease']

@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
-from featurematch.paths import DATA_DIRECTORY
+from CADA.paths import DATA_DIRECTORY
 
 __all__ = [
     'reform_f2g_fm',
