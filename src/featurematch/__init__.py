@@ -1,1 +1,0 @@
-"""FeatureMatch Python package."""

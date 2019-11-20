@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../featurematch/.idea/featurematch.iml" filepath="$PROJECT_DIR$/../featurematch/.idea/featurematch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CADA.iml" filepath="$PROJECT_DIR$/.idea/CADA.iml" />
     </modules>
   </component>
 </project>
