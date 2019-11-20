@@ -126,4 +126,4 @@ dmypy.json
 .pyre/
 
 # my data
-.data/
+data/
