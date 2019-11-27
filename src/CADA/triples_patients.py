@@ -7,7 +7,8 @@ def triples_patients(patients):
     for patient in patients:
         patient_id = patient[0]
         disease = patient[1]
-        features = patient[2].split(',')
+        gene = patient[2]
+        features = patient[3].split(',')
         for feature in features:
             triples.append([patient_id, predicates[0], feature])
         triples.append([patient_id, predicates[1], disease])

@@ -1,5 +1,5 @@
 import os
-from featurematch.paths import DATA_DIRECTORY
+from CADA.paths import DATA_DIRECTORY
 
 
 def disease_gene():
