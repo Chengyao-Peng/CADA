@@ -3,22 +3,9 @@ import pandas as pd
 import pickle
 from ...paths import DATA_DIRECTORY
 
-# input_mondo = '/home/peng/PycharmProjects/featurematch/data/raw/mapping/all-mondo-disease-terms.tsv'
-# output_mondo = '../../../../data/processed/final/ids/mondo_id_name.dict'
-#
-# mondo_id_name = {}
-#
-# df1 = pd.read_csv(input_mondo, skiprows=1, header=0, sep='\t')
-# for row in df1.values.tolist():
-#     id = row[0].strip()
-#     name = row[1].strip()
-#     mondo_id_name[id] = name
-#     pickle.dump(mondo_id_name, open(output_mondo, 'wb'))
-#
 
-def disease():
-    input_omim = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'disease-hpo', 'phenotype_annotation.tab')
-    input_tucases = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'disease-hpo', 'phenotype_annotation.tab')
+annotation = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'disease-hpo', 'phenotype_annotation.tab')
+cases = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'disease-hpo', 'phenotype_annotation.tab')
 
         '/home/peng/PycharmProjects/featurematch/data/raw/patients/f2g/tucases_patient_disease_feature.tsv'
     input_pedia = '/home/peng/PycharmProjects/featurematch/data/raw/patients/supplementary_table_PEDIA/pedia.tsv'

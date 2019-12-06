@@ -1,13 +1,12 @@
 import os
 import pandas as pd
 from pronto import Ontology
-from sklearn.model_selection import train_test_split
 from CADA.paths import DATA_DIRECTORY
 from CADA.reform import *
 from CADA.disease_gene_mapping import disease_gene, gene_disease
 
 
-def split(train_size, output_directory):
+def split(output_directory):
     out_all = os.path.join(output_directory, 'patient.tsv')
     out_train = os.path.join(output_directory, 'patient_training.tsv')
     out_test = os.path.join(output_directory, 'patient_testing.tsv')
@@ -16,11 +15,11 @@ def split(train_size, output_directory):
     old_new_hpo = {}
     hpo_dir = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'hpo_hierarchical_information', 'hp.obo')
     hpo = Ontology(hpo_dir)
-
     for term in hpo.terms():
         id = term.id
         for alt_id in term.alternate_ids:
             old_new_hpo[alt_id] = id
+
     patients += reform_pedia(old_new_hpo)
     patients += reform_f2g_fm(old_new_hpo)
     patients += reform_f2g_tucases(old_new_hpo)
@@ -29,6 +28,7 @@ def split(train_size, output_directory):
 
     # filter out identical patients from different resources
     patients = filter_identical_patients(patients)
+
 
     # add gene or disease information if a 1-to-1 relationship for those patients with only gene or disease information
     for patient in patients:
@@ -51,17 +51,31 @@ def split(train_size, output_directory):
                     pass
 
 
-    # split patients into training set and test set
-    patients = pd.DataFrame(patients)
-    patients = patients.sort_values(patients.columns[2])# sort patients by gene information
-    train, test = train_test_split(patients, train_size=train_size)
-    patients.to_csv(out_all, index=False, header=None, sep='\t')
-    train.to_csv(out_train, index=False, header=None, sep='\t')
-    test.to_csv(out_test, index=False, header=None, sep='\t')
-    train = train.values.tolist()
-    test = test.values.tolist()
+    # patients = pd.DataFrame(patients, columns=['f2g_id', 'OMIM_id', 'gene_id', 'features', 'submitter', 'from_file'])
+    # patients_old_evaluation = pd.read_excel('prioritization.xlsx', header=0)['patient_id']
+    # train = patients[~patients['f2g_id'].isin(patients_old_evaluation.values.tolist())]
+    # test = patients[patients['f2g_id'].isin(patients_old_evaluation.values.tolist())]
+    # patients.to_csv(out_all, index=False, sep='\t')
+    # train.to_csv(out_train, index=False, header=None, sep='\t')
+    # test.to_csv(out_test, index=False, header=None, sep='\t')
+    # train = train.values.tolist()
+    # test = test.values.tolist()
+    # return train, test
 
-    return train, test
+    # split patients into training set and test set
+
+    patients = pd.DataFrame(patients, columns=['f2g_id', 'OMIM_id', 'gene_id', 'features', 'submitter', 'from_file'])
+    train = patients[patients.submitter != 'genetikum']
+    # test = patients[patients.submitter == 'genetikum']
+    patients = patients.sort_values(patients.columns[2])# sort patients by gene information
+    # train, test = train_test_split(patients, train_size=train_size)
+    patients.to_csv(out_all, index=False, sep='\t')
+    train.to_csv(out_train, index=False, header=None, sep='\t')
+    # test.to_csv(out_test, index=False, header=None, sep='\t')
+    train = train.values.tolist()
+    # test = test.values.tolist()
+    #
+    return train
 
 
 

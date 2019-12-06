@@ -12,25 +12,23 @@ def triples_hierarchical_hpo():
     triples = []
     hpo_dict = collections.defaultdict(dict)
     hpo = pronto.Ontology(os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'hpo_hierarchical_information', 'hp.obo'))
-    for term in hpo.terms():
-    # get term id as key
-        id = term.id
-    # get the name and store it into dict
-        name = term.name
-        hpo_dict[id]['name'] = name
-        # if name == 'All':
-        # print(len(term.rchildren()))
+    out_file = os.path.join(DATA_DIRECTORY, 'processed', 'hpo', 'hpo_hierarchical_information', 'hpo_hierarchical.triples')
 
-    # get the parents and store them into dict
-        parents = []
-        for parent in itertools.islice(term.superclasses(), 1):
-            parents.append(parent.id)
-        hpo_dict[id]['parents'] = parents
+    with open(out_file, 'w') as outfile:
+        for term in hpo.terms():
+        # get term id as key
+            id = term.id
+        # get the parents and store them into dict
+            parents = []
+            for parent in list(term.superclasses(distance=1))[1:]:
+                parents.append(parent.id)
+            hpo_dict[id]['parents'] = parents
 
-    for term in hpo_dict.keys():
-        if 'parents'in hpo_dict[term]:
-            for parent in hpo_dict[term]['parents']:
-                triples.append([term, predicate, parent])
+        for term in hpo_dict.keys():
+            if 'parents'in hpo_dict[term]:
+                for parent in hpo_dict[term]['parents']:
+                    outfile.write(term + '\t' + predicate + '\t' + parent + '\n')
+                    triples.append([term, predicate, parent])
 
     return triples
 

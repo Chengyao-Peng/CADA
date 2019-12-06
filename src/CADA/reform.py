@@ -179,19 +179,9 @@ def reform_genetikum(hpo_dict):
         gene_mappings = os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'gene_name_id.dict')
         gene_dict = pickle.load(open(gene_mappings, 'rb'))
         patients.append([case, disease, gene_dict[gene], features_line, submitter, from_file])
-
-    input_unsa = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'genetikum_patients', 'genetikum_patients_known.xlsx')
-    df_ubsa = pd.read_excel(input_unsa, header=None)
-    for patient in df_ubsa.values.tolist():
-        case = 'Patient:' + str(patient[0])
-        disease = 'unknown'
-        features_line = patient[1]
-        features_list = features_line.split(',')
-        features_line = ','.join([hpo_dict.get(feature, feature) for feature in features_list])
-        gene = patient[3]
-        patients.append([case, disease, gene_dict[gene], features_line, submitter, from_file])
-
     return patients
+
+
 
 
 

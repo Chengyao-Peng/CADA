@@ -1,0 +1,12 @@
+{
+  "disease_hpoteam" : true,
+  "gene_frequent" : true,
+  "with_patients": true,
+  "dimensions": 100,
+  "walk_length": 20,
+  "p": 1,
+  "q": 1,
+  "num_walks": 10,
+  "window": 10,
+  "output_directory": "previous_pedia_evaluation"
+}

@@ -4,8 +4,7 @@ import pickle
 hpo_dict = {}
 hpo = pronto.Ontology('../../../../data/raw/hpo/hpo_hierarchical_information/hp.obo')
 
-for term in hpo:
-    # get term id as key
+for term in hpo.terms():
     id = term.id
     name = term.name
     hpo_dict[id] = name
