@@ -1,5 +1,11 @@
+import os
 import pandas as pd
+from CADA.paths import DATA_DIRECTORY
 import pickle
+
+annotation = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'disease-hpo', 'phenotype_annotation.tab')
+out_id_name = os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'omim_id_name.dict')
+out_name_id = out_id_name = os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'omim_id_name.dict')
 
 input_dir = '../../../../data/raw/hpo/gene-hpo/ALL_SOURCES_ALL_FREQUENCIES_genes_to_phenotype.txt'
 output_id_name = '../../../../data/processed/ids/gene_id_name.dict'

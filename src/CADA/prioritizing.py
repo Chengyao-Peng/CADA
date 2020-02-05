@@ -59,9 +59,9 @@ def prioritizing(with_patients, output_directory):
             # get the rank
             rank = gene_nodes.index(gene_id) + 1
 
-            evaluation_save.append([patient_id, gene_id, no_patients,','.join(features), gene_nodes[:10], rank])
+            evaluation_save.append([patient_id, gene_id, no_patients,','.join(features), gene_nodes[:30], rank])
             evaluation_vis.append([patient_id, gene_id_name[gene_id], no_patients,
-                                   ','.join([hpo_id_name[feature] for feature in features]), ','.join([gene_id_name[gene_id] for gene_id in gene_nodes[:10]]), rank])
+                                   ','.join([hpo_id_name[feature] for feature in features]), ','.join([gene_id_name[gene_id] for gene_id in gene_nodes[:30]]), rank])
         saveframe = pd.DataFrame(evaluation_save, columns = ['patient_id', 'gene_id','no_patients', 'features', 'result', 'rank'])
         saveframe.to_csv(out_tsv, sep='\t', index=None)
         visframe = pd.DataFrame(evaluation_vis, columns=['patient_id', 'gene', 'no_patients', 'features', 'result', 'rank'])

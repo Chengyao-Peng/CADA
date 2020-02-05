@@ -10,7 +10,9 @@ __all__ = [
     'reform_f2g_tucases',
     'reform_pedia',
     'reform_f2g_json',
-    'reform_genetikum'
+    'reform_genetikum',
+    'reform_pki',
+    'reform_tubingen'
 ]
 
 def reform_f2g_fm(hpo_dict):
@@ -47,7 +49,6 @@ def reform_f2g_fm(hpo_dict):
                 patients.append([case, disease, gene, features_line, submitter, from_file])
 
     return patients
-
 
 
 def reform_f2g_tucases(hpo_dict):
@@ -165,7 +166,6 @@ def reform_genetikum(hpo_dict):
     patients = []
     from_file = 'genetikum'
     submitter = 'genetikum'
-
     input_fm = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'genetikum_patients',
                             'FeatureMatch_Liste_genetikum.xlsx')
     df_fm = pd.read_excel(input_fm, header=0, converters={'Case_id': str})
@@ -181,6 +181,54 @@ def reform_genetikum(hpo_dict):
         patients.append([case, disease, gene_dict[gene], features_line, submitter, from_file])
     return patients
 
+def reform_pki(hpo_dict):
+    patients = []
+    from_file = 'pki'
+    submitter = 'pki'
+    input_pki = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'pki', 'result_from_disease.tsv')
+    with open(input_pki, 'r') as infile:
+        content = infile.read().splitlines()[1:]
+        content = [x.split('\t') for x in content]
+        for line in content:
+            case = line[0]
+            disease = 'unknown'
+            gene = line[2]
+            features_line = line[1]
+            features_list = features_line.split(',')
+            features_line = ','.join([hpo_dict.get(feature, feature) for feature in features_list])
+            patients.append([case, disease, gene, features_line, submitter, from_file])
+    return patients
+
+
+def reform_tubingen(hpo_dict):
+    patients = []
+    from_file = 'tubingen'
+    submitter = 'tubingen'
+    input_tubingen = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'tubingen', 'result_final.tsv')
+    with open(input_tubingen, 'r') as infile:
+        content = infile.read().splitlines()[1:]
+        content = [x.split('\t') for x in content]
+        unknown_gene = 0
+        case_count = 0
+        for line in content:
+            features_list = []
+            for hpo in line[0].split(';'):
+                hpo = hpo.split(' - ')[0].strip()
+                print(hpo)
+                features_list.append(hpo)
+            features_line = ','.join([hpo_dict.get(feature, feature) for feature in features_list])
+            case_count += 1
+            case = 'Patient:tubingen' + str(case_count)
+            gene_mappings = os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'gene_name_id.dict')
+            gene_dict = pickle.load(open(gene_mappings, 'rb'))
+            disease = 'unknown'
+            if line[1] in gene_dict:
+                gene = gene_dict[line[1]]
+                patients.append([case, disease, gene, features_line, submitter, from_file])
+            else:
+                unknown_gene += 1
+        print(unknown_gene)
+    return patients
 
 
 

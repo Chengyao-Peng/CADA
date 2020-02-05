@@ -38,20 +38,20 @@ def embeddings(
     hpo_triples = triples_hierarchical_hpo()
     triples += hpo_triples
 
-    # # get triples of gene-hpo 'is_feature_of_gene' relationships
-    # logger.info(f'Adding gene-hpo relationships.')
-    # gene_hpo_triples = triples_gene_hpo(gene_frequent)
-    # triples += gene_hpo_triples
+    # get triples of gene-hpo 'is_feature_of_gene' relationships
+    logger.info(f'Adding gene-hpo relationships.')
+    gene_hpo_triples = triples_gene_hpo(gene_frequent)
+    triples += gene_hpo_triples
 
     # get triples of disease-hpo 'is_feature_of_disease' relationships
     logger.info(f'Adding disease-hpo relationships')
     disease_hpo_triples = triples_disease_hpo(disease_hpoteam)
     triples += disease_hpo_triples
 
-    # # get triples of disease-gene 'mutation_contributes_to_disease' relationships
-    # logger.info(f'Adding disease-gene relationships')
-    # disease_gene_triples = triples_disease_gene()
-    # triples += disease_gene_triples
+    # get triples of disease-gene 'mutation_contributes_to_disease' relationships
+    logger.info(f'Adding disease-gene relationships')
+    disease_gene_triples = triples_disease_gene()
+    triples += disease_gene_triples
 
 
     if with_patients:
@@ -90,8 +90,8 @@ def embeddings(
     Gcc = sorted(nx.connected_components(G), key=len, reverse=True)
     G0 = G.subgraph(Gcc[0])
 
-    node2vec = Node2Vec(G0, dimensions=dimensions, walk_length=walk_length, num_walks=num_walks, workers=1, p=p, q=q)
-    model = node2vec.fit(window=window, min_count=1, batch_words=4)
-    model.wv.save_word2vec_format(embedding_outdir)
-    model.save(model_outdir)
-
+    # node2vec = Node2Vec(G0, dimensions=dimensions, walk_length=walk_length, num_walks=num_walks, workers=1, p=p, q=q)
+    # model = node2vec.fit(window=window, min_count=1, batch_words=4)
+    # model.wv.save_word2vec_format(embedding_outdir)
+    # model.save(model_outdir)
+    #
