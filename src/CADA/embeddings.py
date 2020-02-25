@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 def embeddings(
         *,
-        # prioritization: str,
+        prioritization: str,
         disease_hpoteam = bool,
         gene_frequent: bool,
         with_patients: bool,
@@ -38,32 +38,35 @@ def embeddings(
     hpo_triples = triples_hierarchical_hpo()
     triples += hpo_triples
 
-    # get triples of gene-hpo 'is_feature_of_gene' relationships
-    logger.info(f'Adding gene-hpo relationships.')
-    gene_hpo_triples = triples_gene_hpo(gene_frequent)
-    triples += gene_hpo_triples
+    if prioritization == 'disease':
+        # get triples of disease-hpo 'is_feature_of_disease' relationships
+        logger.info(f'Adding disease-hpo relationships')
+        disease_hpo_triples = triples_disease_hpo(disease_hpoteam)
+        triples += disease_hpo_triples
+        if with_patients:
+            output_directory = os.path.join(MODEL_DIRECTORY, output_directory)
+            embedding_outdir = os.path.join(output_directory, 'with_patients.embeddings')
+            model_outdir = os.path.join(output_directory, 'with_patients.model')
+            # get triples of patients 'has_feature' and 'has disease' relationships
+            train = split(output_directory)
+            train_patients_triples = triples_patients(train)
+            triples += train_patients_triples
+            logger.info(f'Patients and their features and diseases relationships added')
 
-    # get triples of disease-hpo 'is_feature_of_disease' relationships
-    logger.info(f'Adding disease-hpo relationships')
-    disease_hpo_triples = triples_disease_hpo(disease_hpoteam)
-    triples += disease_hpo_triples
+    elif prioritization == 'gene':
+        # get triples of gene-hpo 'is_feature_of_gene' relationships
+        logger.info(f'Adding gene-hpo relationships.')
+        gene_hpo_triples = triples_gene_hpo(gene_frequent)
+        triples += gene_hpo_triples
+        # # get triples of disease-gene 'mutation_contributes_to_disease' relationships
+        # logger.info(f'Adding disease-gene relationships')
+        # disease_gene_triples = triples_disease_gene()
+        # triples += disease_gene_triples
 
-    # get triples of disease-gene 'mutation_contributes_to_disease' relationships
-    logger.info(f'Adding disease-gene relationships')
-    disease_gene_triples = triples_disease_gene()
-    triples += disease_gene_triples
+    elif prioritization == 'together':
 
 
-    if with_patients:
-        output_directory = os.path.join(MODEL_DIRECTORY, output_directory)
-        embedding_outdir = os.path.join(output_directory, 'with_patients.embeddings')
-        model_outdir = os.path.join(output_directory, 'with_patients.model')
 
-        # get triples of patients 'has_feature' and 'has disease' relationships
-        train = split(output_directory)
-        train_patients_triples = triples_patients(train)
-        triples += train_patients_triples
-        logger.info(f'Patients and their features and diseases relationships added')
 
     else:
         output_directory = os.path.join(MODEL_DIRECTORY, output_directory)

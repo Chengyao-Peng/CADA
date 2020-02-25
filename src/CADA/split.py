@@ -21,21 +21,14 @@ def split(output_directory):
     out_test = os.path.join(output_directory, 'patient_testing.tsv')
     # get all patients and update their hpo id to the newest version
     patients = []
-    old_new_hpo = {}
-    hpo_dir = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'hpo_hierarchical_information', 'hp.obo')
-    hpo = Ontology(hpo_dir)
-    for term in hpo.terms():
-        id = term.id
-        for alt_id in term.alternate_ids:
-            old_new_hpo[alt_id] = id
-
-    patients += reform_pedia(old_new_hpo)
-    patients += reform_f2g_fm(old_new_hpo)
-    patients += reform_f2g_tucases(old_new_hpo)
-    patients += reform_f2g_json(old_new_hpo)
-    patients += reform_genetikum(old_new_hpo)
-    patients += reform_pki(old_new_hpo)
-    patients += reform_tubingen(old_new_hpo)
+    patients += reform_pedia()
+    patients += reform_f2g_fm()
+    patients += reform_f2g_tucases()
+    patients += reform_f2g_json()
+    patients += reform_genetikum()
+    patients += reform_pki()
+    patients += reform_tubingen()
+    patients += reform_clinvar()
 
     # filter out identical patients from different resources
     patients = filter_identical_patients(patients)
@@ -74,10 +67,11 @@ def split(output_directory):
 
     # split patients into training set and test set
 
-    patients = pd.DataFrame(patients, columns=['f2g_id', 'OMIM_id', 'gene_id', 'features', 'submitter', 'from_file'])
+    patients = pd.DataFrame(patients, columns=['patient_id', 'omim_id', 'gene_id', 'features', 'submitter', 'from_file'])
     # train = patients[patients.submitter != 'genetikum']
     # test = patients[patients.submitter == 'genetikum']
 
+    #
     patients = patients.sort_values(patients.columns[2])# sort patients by gene information
     patients.to_csv(out_all, index=False, sep='\t')
 
@@ -100,7 +94,6 @@ def split(output_directory):
     test.to_csv(out_test, index=False, header=None, sep='\t')
     train = train.values.tolist()
     # test = test.values.tolist()
-
     return train
 
 

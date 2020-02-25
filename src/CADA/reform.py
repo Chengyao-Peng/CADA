@@ -12,15 +12,19 @@ __all__ = [
     'reform_f2g_json',
     'reform_genetikum',
     'reform_pki',
-    'reform_tubingen'
+    'reform_tubingen',
+    'reform_clinvar'
 ]
 
-def reform_f2g_fm(hpo_dict):
+with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'hpo_old_new.dict'), 'rb') as handle:
+    hpo_dict = pickle.load(handle)
+
+
+def reform_f2g_fm():
     from_file = 'fm_benchmarking'
     unclear_diagnosis = ['DIFFERENTIAL_DIAGNOSIS']
     input_file = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'f2g', 'FM_Benchmark_Gathering_PK.csv')
     patients = []
-
     with open(input_file, "r") as infile:
         bulk = infile.read().rstrip()
         blocks = bulk.split("\n\n")
@@ -47,11 +51,10 @@ def reform_f2g_fm(hpo_dict):
                 else:
                     gene = 'unknown'
                 patients.append([case, disease, gene, features_line, submitter, from_file])
-
     return patients
 
 
-def reform_f2g_tucases(hpo_dict):
+def reform_f2g_tucases():
     from_file = 'tucases'
     input_diseases = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'f2g', 'TUcases_disease.xlsx')
     input_features = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'f2g', 'TUcases_feature.xlsx')
@@ -101,7 +104,7 @@ def reform_f2g_tucases(hpo_dict):
     return patients
 
 
-def reform_pedia(hpo_dict):
+def reform_pedia():
     from_file = 'pedia'
     input_file = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'supplementary_table_PEDIA', 'pedia.tsv')
     patients = []
@@ -116,11 +119,10 @@ def reform_pedia(hpo_dict):
             features_line = ','.join([hpo_dict.get(feature, feature) for feature in features])
             submitter = line[16]
             patients.append([case, disease, gene, features_line, submitter, from_file])
-
     return patients
 
 
-def reform_f2g_json(hpo_dict):
+def reform_f2g_json():
     from_file = 'json_from_f2g'
     input_dir = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'aleksandra')
     patients = []
@@ -162,7 +164,7 @@ def reform_f2g_json(hpo_dict):
     return patients
 
 
-def reform_genetikum(hpo_dict):
+def reform_genetikum():
     patients = []
     from_file = 'genetikum'
     submitter = 'genetikum'
@@ -181,7 +183,7 @@ def reform_genetikum(hpo_dict):
         patients.append([case, disease, gene_dict[gene], features_line, submitter, from_file])
     return patients
 
-def reform_pki(hpo_dict):
+def reform_pki():
     patients = []
     from_file = 'pki'
     submitter = 'pki'
@@ -200,7 +202,7 @@ def reform_pki(hpo_dict):
     return patients
 
 
-def reform_tubingen(hpo_dict):
+def reform_tubingen():
     patients = []
     from_file = 'tubingen'
     submitter = 'tubingen'
@@ -231,7 +233,16 @@ def reform_tubingen(hpo_dict):
     return patients
 
 
-
-
-
+def reform_clinvar():
+    patients = []
+    input_clinvar = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'clinvar', 'clinvar_submission.tsv')
+    with open(input_clinvar, 'r') as infile:
+        content = infile.read().splitlines()[1:]
+        patients_old = [x.split('\t') for x in content]
+        for patient in patients_old:
+            hpos_list = patient[3].split(',')
+            features_line = ','.join([hpo_dict.get(feature, feature) for feature in hpos_list])
+            patient[3] = features_line
+            patients.append(patient)
+    return patients
 
