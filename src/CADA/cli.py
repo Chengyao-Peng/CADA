@@ -25,7 +25,6 @@ def main(config: TextIO):
     config = json.load(config)
     # get model output directory
     output_directory = config['output_directory']
-    with_patients = config['with_patients']
     log_file = os.path.join(MODEL_DIRECTORY, output_directory, 'cada.log')
     logging.basicConfig(filename = log_file, level=logging.INFO)
     # Interpret as JSON file

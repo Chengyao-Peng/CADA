@@ -89,14 +89,12 @@ def split(output_directory):
     excel_patients_pd = pd.DataFrame(excel_patients_list, columns=['f2g_id', 'OMIM', 'gene', 'features', 'submitter', 'from_file'])
     excel_patients_pd.to_excel(out_all_excel, index = None)
 
-    train, test = train_test_split(patients, train_size=0.8)
+    train, test = train_test_split(patients, train_size=0.9)
     train.to_csv(out_train, index=False, header=None, sep='\t')
     test.to_csv(out_test, index=False, header=None, sep='\t')
     train = train.values.tolist()
     # test = test.values.tolist()
     return train
-
-
 
 def filter_identical_patients(patients):
     filtered_patients = {}
