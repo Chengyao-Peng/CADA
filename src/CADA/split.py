@@ -32,11 +32,18 @@ def split(output_directory):
 
     # filter out identical patients from different resources
     patients = filter_identical_patients(patients)
-
+    # filter out idential hpo terms
     # add gene or disease information if a 1-to-1 relationship for those patients with only gene or disease information
+    # add a column of feature numbers
     for patient in patients:
         disease = patient[1]
         gene = patient[2]
+        feature_list = patient[3].split(',')
+        filtered_feature_list = list(set(feature_list))
+        num_features = len(filtered_feature_list)
+        filtered_feature_line = ','.join(filtered_feature_list)
+        patient[3] = filtered_feature_line
+        patient.append(num_features)
         if disease == 'unknown':
             gene_disease_map = gene_disease()
             if gene in gene_disease_map:
@@ -54,6 +61,7 @@ def split(output_directory):
                     pass
 
 
+
     # patients = pd.DataFrame(patients, columns=['f2g_id', 'OMIM_id', 'gene_id', 'features', 'submitter', 'from_file'])
     # patients_old_evaluation = pd.read_excel('prioritization.xlsx', header=0)['patient_id']
     # train = patients[~patients['f2g_id'].isin(patients_old_evaluation.values.tolist())]
@@ -67,7 +75,7 @@ def split(output_directory):
 
     # split patients into training set and test set
 
-    patients = pd.DataFrame(patients, columns=['patient_id', 'omim_id', 'gene_id', 'features', 'submitter', 'from_file'])
+    patients = pd.DataFrame(patients, columns=['patient_id', 'omim_id', 'gene_id', 'features', 'submitter', 'from_file', 'num_features'])
     # train = patients[patients.submitter != 'genetikum']
     # test = patients[patients.submitter == 'genetikum']
 
@@ -86,7 +94,8 @@ def split(output_directory):
         features_list = patient[3].split(',')
         features_line = ','.join([hpo_id_name.get(feature, feature) for feature in features_list])
         patient[3]=features_line
-    excel_patients_pd = pd.DataFrame(excel_patients_list, columns=['f2g_id', 'OMIM', 'gene', 'features', 'submitter', 'from_file'])
+    excel_patients_pd = pd.DataFrame(excel_patients_list, columns=['patient_id', 'omim', 'gene', 'features', 'submitter', 'from_file', 'num_features'])
+    excel_patients_pd = excel_patients_pd.sort_values(excel_patients_pd.columns[2])
     excel_patients_pd.to_excel(out_all_excel, index = None)
 
     train, test = train_test_split(patients, train_size=0.9)
@@ -96,19 +105,17 @@ def split(output_directory):
     # test = test.values.tolist()
     return train
 
+
+
 def filter_identical_patients(patients):
     filtered_patients = {}
     list_filtered_patients = []
     for patient in patients:
         patient_id = patient[0]
-        gene = patient[2]
         if patient_id in filtered_patients:
-            if patient[1:] != filtered_patients[patient_id]:
-                if gene != 'unknown':
-                    filtered_patients[patient_id][1] = gene
+            pass
         else:
             filtered_patients[patient_id] = patient[1:]
-
     for key, value in filtered_patients.items():
         item = [key] + value
         list_filtered_patients.append(item)

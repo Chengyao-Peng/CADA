@@ -126,7 +126,6 @@ def reform_f2g_json():
     from_file = 'json_from_f2g'
     input_dir = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'aleksandra')
     patients = []
-
     for json_file in os.listdir(input_dir):
         json_file = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'aleksandra', json_file)
         with open(json_file) as f:
@@ -197,8 +196,9 @@ def reform_pki():
             gene = line[2]
             features_line = line[1]
             features_list = features_line.split(',')
-            features_line = ','.join([hpo_dict.get(feature, feature) for feature in features_list])
-            patients.append([case, disease, gene, features_line, submitter, from_file])
+            if features_list != ['']:
+                features_line = ','.join([hpo_dict.get(feature, feature) for feature in features_list])
+                patients.append([case, disease, gene, features_line, submitter, from_file])
     return patients
 
 
@@ -216,7 +216,6 @@ def reform_tubingen():
             features_list = []
             for hpo in line[0].split(';'):
                 hpo = hpo.split(' - ')[0].strip()
-                print(hpo)
                 features_list.append(hpo)
             features_line = ','.join([hpo_dict.get(feature, feature) for feature in features_list])
             case_count += 1
@@ -235,7 +234,7 @@ def reform_tubingen():
 
 def reform_clinvar():
     patients = []
-    input_clinvar = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'clinvar', 'clinvar_submission.tsv')
+    input_clinvar = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'clinvar', 'clinvar_submissions.tsv')
     with open(input_clinvar, 'r') as infile:
         content = infile.read().splitlines()[1:]
         patients_old = [x.split('\t') for x in content]

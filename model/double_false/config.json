@@ -8,5 +8,5 @@
   "q": 1,
   "num_walks": 1,
   "window": 15,
-  "output_directory": "all_patients_doublefalse"
+  "output_directory": "double_false"
 }
