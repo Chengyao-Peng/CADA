@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import pickle
-from pronto import Ontology
+import csv
 from sklearn.model_selection import train_test_split
 from CADA.paths import DATA_DIRECTORY
 from CADA.reform import *
@@ -14,8 +14,8 @@ with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'omim_id_name.dict'),
 with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'hpo_id_name.dict'), 'rb') as handle:
     hpo_id_name = pickle.load(handle)
 
-def split(output_directory):
-    out_all = os.path.join(output_directory, 'patient.tsv')
+def split(train_size, output_directory):
+    out_all_csv = os.path.join(output_directory, 'patient.tsv')
     out_all_excel = os.path.join(output_directory, 'patient.xlsx')
     out_train = os.path.join(output_directory, 'patient_training.tsv')
     out_test = os.path.join(output_directory, 'patient_testing.tsv')
@@ -30,11 +30,30 @@ def split(output_directory):
     patients += reform_tubingen()
     patients += reform_clinvar()
 
-    # filter out identical patients from different resources
     patients = filter_identical_patients(patients)
-    # filter out idential hpo terms
-    # add gene or disease information if a 1-to-1 relationship for those patients with only gene or disease information
-    # add a column of feature numbers
+    patients = final_preprocessing(patients)
+    save_patient(out_all_csv, out_all_excel, patients)
+
+    if train_size == 0:
+        train = []
+        test = patients
+        with open(out_test, "w", newline="") as f:
+            writer = csv.writer(f, delimiter='\t')
+            writer.writerows(test)
+    else:
+        train, test = train_test_split(patients, train_size=train_size)
+        train.to_csv(out_train, index=False, header=None, sep='\t')
+        test.to_csv(out_test, index=False, header=None, sep='\t')
+        train = train.values.tolist()
+        test = test.values.tolist()
+
+    return train, test
+
+
+def final_preprocessing(patients):
+    ''' filter out identical hpo terms
+     add gene or disease information if a 1-to-1 relationship for those patients with only gene or disease information
+     add a column of feature numbers'''
     for patient in patients:
         disease = patient[1]
         gene = patient[2]
@@ -51,7 +70,6 @@ def split(output_directory):
                     patient[1] = gene_disease_map[gene][0]
                 else:
                     pass
-
         if gene == 'unknown':
             disease_gene_map = disease_gene()
             if disease in disease_gene_map:
@@ -59,51 +77,7 @@ def split(output_directory):
                     patient[2] = disease_gene_map[disease][0]
                 else:
                     pass
-
-
-
-    # patients = pd.DataFrame(patients, columns=['f2g_id', 'OMIM_id', 'gene_id', 'features', 'submitter', 'from_file'])
-    # patients_old_evaluation = pd.read_excel('prioritization.xlsx', header=0)['patient_id']
-    # train = patients[~patients['f2g_id'].isin(patients_old_evaluation.values.tolist())]
-    # test = patients[patients['f2g_id'].isin(patients_old_evaluation.values.tolist())]
-    # patients.to_csv(out_all, index=False, sep='\t')
-    # train.to_csv(out_train, index=False, header=None, sep='\t')
-    # test.to_csv(out_test, index=False, header=None, sep='\t')
-    # train = train.values.tolist()
-    # test = test.values.tolist()
-    # return train, test
-
-    # split patients into training set and test set
-
-    patients = pd.DataFrame(patients, columns=['patient_id', 'omim_id', 'gene_id', 'features', 'submitter', 'from_file', 'num_features'])
-    # train = patients[patients.submitter != 'genetikum']
-    # test = patients[patients.submitter == 'genetikum']
-
-    #
-    patients = patients.sort_values(patients.columns[2])# sort patients by gene information
-    patients.to_csv(out_all, index=False, sep='\t')
-
-    excel_patients_list = patients.values.tolist()
-    for patient in excel_patients_list:
-        omim_id = patient[1]
-        if not omim_id == 'unknown' and omim_id in omim_id_name:
-            patient[1] = omim_id_name[omim_id]
-        gene_id = patient[2]
-        if not gene_id == 'unknown' and gene_id in gene_id_name:
-            patient[2] = gene_id_name[gene_id]
-        features_list = patient[3].split(',')
-        features_line = ','.join([hpo_id_name.get(feature, feature) for feature in features_list])
-        patient[3]=features_line
-    excel_patients_pd = pd.DataFrame(excel_patients_list, columns=['patient_id', 'omim', 'gene', 'features', 'submitter', 'from_file', 'num_features'])
-    excel_patients_pd = excel_patients_pd.sort_values(excel_patients_pd.columns[2])
-    excel_patients_pd.to_excel(out_all_excel, index = None)
-
-    train, test = train_test_split(patients, train_size=0.9)
-    train.to_csv(out_train, index=False, header=None, sep='\t')
-    test.to_csv(out_test, index=False, header=None, sep='\t')
-    train = train.values.tolist()
-    # test = test.values.tolist()
-    return train
+    return patients
 
 
 
@@ -120,3 +94,29 @@ def filter_identical_patients(patients):
         item = [key] + value
         list_filtered_patients.append(item)
     return list_filtered_patients
+
+
+def save_patient(out_all_csv, out_all_excel, patients):
+    # generate an csv file of all patient
+    patients = pd.DataFrame(patients, columns=['patient_id', 'omim_id', 'gene_id', 'features', 'submitter', 'from_file',
+                                               'num_features'])
+    patients = patients.sort_values(patients.columns[2])  # sort patients by gene information
+    patients.to_csv(out_all_csv, index=False, sep='\t')
+    # generate an visualizable xlsx file of all patient
+    excel_patients_list = patients.values.tolist()
+    for patient in excel_patients_list:
+        omim_id = patient[1]
+        if not omim_id == 'unknown' and omim_id in omim_id_name:
+            patient[1] = omim_id_name[omim_id]
+        gene_id = patient[2]
+        if not gene_id == 'unknown' and gene_id in gene_id_name:
+            patient[2] = gene_id_name[gene_id]
+        features_list = patient[3].split(',')
+        features_line = ','.join([hpo_id_name.get(feature, feature) for feature in features_list])
+        patient[3] = features_line
+    excel_patients_pd = pd.DataFrame(excel_patients_list,
+                                     columns=['patient_id', 'omim', 'gene', 'features', 'submitter', 'from_file',
+                                              'num_features'])
+    excel_patients_pd = excel_patients_pd.sort_values(excel_patients_pd.columns[2])
+    excel_patients_pd.to_excel(out_all_excel, index=None)
+

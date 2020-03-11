@@ -9,6 +9,7 @@ import logging
 from typing import TextIO
 from CADA.paths import MODEL_DIRECTORY
 from CADA.embeddings import embeddings
+from CADA.prioritizing import prioritizing
 from CADA.prioritizing_from_disease import prioritizing_from_disease
 
 __all__ = [
@@ -29,7 +30,7 @@ def main(config: TextIO):
     logging.basicConfig(filename = log_file, level=logging.INFO)
     # Interpret as JSON file
     embeddings(**config)
-    # prioritizing_from_disease(with_patients, output_directory)
+    prioritizing(output_directory)
 
 if __name__ == '__main__':
     main()

@@ -17,25 +17,19 @@ with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'hpo_id_name.dict'), 
 dict_disease_gene = disease_gene()
 
 
-def prioritizing(with_patients, output_directory):
+def prioritizing(output_directory):
     in_dir = os.path.join(MODEL_DIRECTORY, output_directory)
     out_tsv = os.path.join(in_dir, 'evaluation.tsv')
     out_xlsx = os.path.join(in_dir, 'evaluation.xlsx')
     # reload trained model
-    if with_patients:
-        in_dir = os.path.join(MODEL_DIRECTORY, output_directory)
-        model = Word2Vec.load(os.path.join(in_dir, 'with_patients.model'))
-    else:
-        in_dir = os.path.join(MODEL_DIRECTORY, output_directory)
-        model = Word2Vec.load(os.path.join(in_dir, 'without_patients.model'))
+    in_dir = os.path.join(MODEL_DIRECTORY, output_directory)
+    model = Word2Vec.load(os.path.join(in_dir, 'node2vec.model'))
 
     train = os.path.join(in_dir, 'patient_training.tsv')
     test = os.path.join(in_dir, 'patient_testing.tsv')
     evaluation_save = list()
     evaluation_vis = list()
 
-    train_pd = pd.read_csv(train, header=None, sep = '\t', names = ['patient_id', 'syndrome','mutation_gene','features', 'submitter', 'from_file'])
-    gene_counts = train_pd['mutation_gene'].value_counts().to_dict()
 
     with open(test, 'r') as t_file:
         content = t_file.read().splitlines()
@@ -45,8 +39,13 @@ def prioritizing(with_patients, output_directory):
             gene_nodes = []
             gene_id = line[2]
             # count patients with same mutation incorporated into graph
-            if gene_id in gene_counts:
-                no_patients = gene_counts[gene_id]
+            if os.path.exists(train):
+                train_pd = pd.read_csv(train, header=None, sep='\t',
+                                       names=['patient_id', 'syndrome', 'mutation_gene', 'features', 'submitter',
+                                              'from_file'])
+                gene_counts = train_pd['mutation_gene'].value_counts().to_dict()
+                if gene_id in gene_counts:
+                    no_patients = gene_counts[gene_id]
             else:
                 no_patients = 0
             # find similar nodes by adding vectors of features and calculating cosine distance
