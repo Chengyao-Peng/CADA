@@ -239,6 +239,7 @@ def reform_clinvar():
         content = infile.read().splitlines()[1:]
         patients_old = [x.split('\t') for x in content]
         for patient in patients_old:
+            patient[0] = "Patient:" + patient[0]
             hpos_list = patient[3].split(',')
             features_line = ','.join([hpo_dict.get(feature, feature) for feature in hpos_list])
             patient[3] = features_line
