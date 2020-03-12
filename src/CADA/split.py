@@ -32,6 +32,7 @@ def split(train_size, output_directory):
 
     patients = filter_identical_patients(patients)
     patients = final_preprocessing(patients)
+    patients = filter_only_disease(patients)
     save_patient(out_all_csv, out_all_excel, patients)
 
     if train_size == 0:
@@ -119,4 +120,12 @@ def save_patient(out_all_csv, out_all_excel, patients):
                                               'num_features'])
     excel_patients_pd = excel_patients_pd.sort_values(excel_patients_pd.columns[2])
     excel_patients_pd.to_excel(out_all_excel, index=None)
+
+
+def filter_only_disease(patients):
+    filtered_patients = []
+    for patient in patients:
+        if patient[2] != 'unknown':
+            filtered_patients.append(patient)
+    return filtered_patients
 

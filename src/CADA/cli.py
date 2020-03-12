@@ -29,7 +29,7 @@ def main(config: TextIO):
     log_file = os.path.join(MODEL_DIRECTORY, output_directory, 'cada.log')
     logging.basicConfig(filename = log_file, level=logging.INFO)
     # Interpret as JSON file
-    embeddings(**config)
+    # embeddings(**config)
     prioritizing(output_directory)
 
 if __name__ == '__main__':

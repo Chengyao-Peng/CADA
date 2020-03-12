@@ -56,7 +56,10 @@ def prioritizing(output_directory):
                 if node[0].startswith('Entrez'):
                         gene_nodes.append(node[0])
             # get the rank
-            rank = gene_nodes.index(gene_id) + 1
+            if gene_id in gene_nodes:
+                rank = gene_nodes.index(gene_id) + 1
+            else:
+                rank = 'NA'
 
             evaluation_save.append([patient_id, gene_id, no_patients,','.join(features), gene_nodes[:30], rank])
             evaluation_vis.append([patient_id, gene_id_name[gene_id], no_patients,
@@ -65,6 +68,7 @@ def prioritizing(output_directory):
         saveframe.to_csv(out_tsv, sep='\t', index=None)
         visframe = pd.DataFrame(evaluation_vis, columns=['patient_id', 'gene', 'no_patients', 'features', 'result', 'rank'])
         visframe.to_excel(out_xlsx, index=None)
+        
         logger.info(f'Statistics: {saveframe.describe()}')
 
 
