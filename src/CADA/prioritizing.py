@@ -68,7 +68,7 @@ def prioritizing(output_directory):
         saveframe.to_csv(out_tsv, sep='\t', index=None)
         visframe = pd.DataFrame(evaluation_vis, columns=['patient_id', 'gene', 'no_patients', 'features', 'result', 'rank'])
         visframe.to_excel(out_xlsx, index=None)
-        
+
         logger.info(f'Statistics: {saveframe.describe()}')
 
 
