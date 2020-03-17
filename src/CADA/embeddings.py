@@ -75,7 +75,7 @@ def embeddings(
     model_outdir = os.path.join(output_directory, 'node2vec.model')
     # get triples of patients 'has_feature' and 'has disease' relationships
     train, test = split(train_size, output_directory)
-    train_patients_triples = triples_patients(train)
+    train_patients_triples = triples_patients(node_gene, node_disease, train)
     triples += train_patients_triples
     logger.info(f'Patients and their features and diseases relationships added')
 

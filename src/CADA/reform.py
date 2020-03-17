@@ -234,12 +234,11 @@ def reform_tubingen():
 
 def reform_clinvar():
     patients = []
-    input_clinvar = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'clinvar', 'clinvar_submissions.tsv')
+    input_clinvar = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'clinvar', 'clinvar_submissions_training.tsv')
     with open(input_clinvar, 'r') as infile:
         content = infile.read().splitlines()[1:]
         patients_old = [x.split('\t') for x in content]
         for patient in patients_old:
-            patient[0] = "Patient:" + patient[0]
             hpos_list = patient[3].split(',')
             features_line = ','.join([hpo_dict.get(feature, feature) for feature in hpos_list])
             patient[3] = features_line

@@ -41,6 +41,12 @@ def split(train_size, output_directory):
         with open(out_test, "w", newline="") as f:
             writer = csv.writer(f, delimiter='\t')
             writer.writerows(test)
+    elif train_size == 1:
+        train = patients
+        test = []
+        with open(out_train, "w", newline="") as f:
+            writer = csv.writer(f, delimiter='\t')
+            writer.writerows(train)
     else:
         train, test = train_test_split(patients, train_size=train_size)
         train.to_csv(out_train, index=False, header=None, sep='\t')

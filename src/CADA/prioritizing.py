@@ -30,6 +30,14 @@ def prioritizing(output_directory):
     evaluation_save = list()
     evaluation_vis = list()
 
+    gene_counts = {}
+
+    if os.path.exists(train):
+        train_pd = pd.read_csv(train, header=None, sep='\t',
+                               names=['patient_id', 'omim_id', 'gene_id', 'features', 'submitter',
+                                      'from_file', 'no_features'])
+        gene_counts = train_pd['gene_id'].value_counts().to_dict()
+
 
     with open(test, 'r') as t_file:
         content = t_file.read().splitlines()
@@ -39,15 +47,11 @@ def prioritizing(output_directory):
             gene_nodes = []
             gene_id = line[2]
             # count patients with same mutation incorporated into graph
-            if os.path.exists(train):
-                train_pd = pd.read_csv(train, header=None, sep='\t',
-                                       names=['patient_id', 'syndrome', 'mutation_gene', 'features', 'submitter',
-                                              'from_file'])
-                gene_counts = train_pd['mutation_gene'].value_counts().to_dict()
-                if gene_id in gene_counts:
-                    no_patients = gene_counts[gene_id]
+            if gene_id in gene_counts:
+                no_patients = gene_counts[gene_id]
             else:
                 no_patients = 0
+
             # find similar nodes by adding vectors of features and calculating cosine distance
             features = line[3].split(',')
             similar_nodes = model.most_similar(positive=features, topn=100000)
@@ -68,8 +72,36 @@ def prioritizing(output_directory):
         saveframe.to_csv(out_tsv, sep='\t', index=None)
         visframe = pd.DataFrame(evaluation_vis, columns=['patient_id', 'gene', 'no_patients', 'features', 'result', 'rank'])
         visframe.to_excel(out_xlsx, index=None)
-        rankssaveframe['rank'].tolist()
+        ranks = saveframe['rank'].tolist()
+        count1 = count5 = count10 = count50 = count100 = count1000 = 0
+        counts = len(ranks)
+        for rank in ranks:
+            if isinstance(rank, int):
+                if rank == 1:
+                    count1 += 1
+                if rank <= 5:
+                    count5 += 1
+                if rank <= 10:
+                    count10 += 1
+                if rank <= 50:
+                    count50 += 1
+                if rank <= 100:
+                    count100 += 1
+                if rank <= 1000:
+                    count1000 += 1
+        top1 = round(count1/counts, 2)
+        top5 = round(count5/counts, 2)
+        top10 = round(count10/counts, 2)
+        top50 = round(count50/counts, 2)
+        top100 = round(count100/counts, 2)
+        top1000 = round(count1000/counts, 2)
 
-        logger.info(f'Statistics: {saveframe.describe()}')
+        logger.info(f'top1: {top1}')
+        logger.info(f'top5: {top5}')
+        logger.info(f'top10: {top10}')
+        logger.info(f'top50: {top50}')
+        logger.info(f'top100: {top100}')
+        logger.info(f'top1000: {top1000}')
+
 
 

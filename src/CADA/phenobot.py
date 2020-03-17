@@ -9,20 +9,23 @@ hpos = []
 genes = []
 patient_ids = []
 
-with open('result_from_disease.tsv', 'r') as f:
-    csv_reader = csv.reader(f, delimiter='\t')
-    flag = 1
-    for row in csv_reader:
-        if flag:
-            flag = 0
-            continue
-        case_id = row[0]
-        hpo = row[1]
-        gene = row[2]
-        case_ids.append(case_id)
-        hpos.append(hpo)
-        genes.append(gene)
-        patient_ids.append(row[3])
+def phenobot(output_directory: str):
+    evaluation_tsv = os.path.join(MODEL_DIRECTORY, output_directory, 'evaluation.tsv')
+
+    with open(evaluation_tsv, 'r') as f:
+        csv_reader = csv.reader(f, delimiter='\t')
+        flag = 1
+        for row in csv_reader:
+            if flag:
+                flag = 0
+                continue
+            case_id = row[0]
+            hpo = row[1]
+            gene = row[2]
+            case_ids.append(case_id)
+            hpos.append(hpo)
+            genes.append(gene)
+            patient_ids.append(row[3])
 
 
 create_patient = "https://solutions-sandbox-api.fdna.com/api/patients"
