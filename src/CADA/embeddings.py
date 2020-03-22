@@ -31,11 +31,13 @@ def embeddings(
         window: int,
         output_directory: str,
         ):
-    """
-    :param prioritization:
+    '''
+
+    :param node_disease:
+    :param node_gene:
     :param disease_hpoteam:
     :param gene_frequent:
-    :param with_patients:
+    :param train_size:
     :param dimensions:
     :param walk_length:
     :param p:
@@ -44,7 +46,7 @@ def embeddings(
     :param window:
     :param output_directory:
     :return:
-    """
+    '''
 
     triples = []
     # get triples of hpo-hpo 'is_a' relationships
@@ -77,7 +79,7 @@ def embeddings(
     train, test = split(train_size, output_directory)
     train_patients_triples = triples_patients(node_gene, node_disease, train)
     triples += train_patients_triples
-    logger.info(f'Patients and their features and diseases relationships added')
+    logger.info(f'Patients train_size: {train_size}')
 
 
     # Save triples
