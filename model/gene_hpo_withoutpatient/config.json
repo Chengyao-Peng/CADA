@@ -4,11 +4,11 @@
   "disease_hpoteam" : false,
   "gene_frequent" : false,
   "train_size" : 0,
-  "dimensions": 100,
-  "walk_length": 30,
+  "dimensions": 128,
+  "walk_length": 80,
   "p": 1,
   "q": 1,
   "num_walks": 10,
-  "window": 15,
+  "window": 10,
   "output_directory": "gene_hpo_withoutpatient"
 }
