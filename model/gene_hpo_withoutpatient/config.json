@@ -5,7 +5,7 @@
   "gene_frequent" : false,
   "train_size" : 0,
   "dimensions": 128,
-  "walk_length": 80,
+  "walk_length": 30,
   "p": 1,
   "q": 1,
   "num_walks": 10,
