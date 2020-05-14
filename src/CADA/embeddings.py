@@ -7,21 +7,18 @@ import pandas as pd
 import networkx as nx
 from node2vec import Node2Vec
 from CADA.paths import MODEL_DIRECTORY
-from CADA.split import split
 from CADA.triples_patients import triples_patients
 from CADA.triples_hierarchical_hpo import triples_hierarchical_hpo
 from CADA.triples_disease_hpo  import triples_disease_hpo
 from CADA.triples_gene_hpo import triples_gene_hpo
 from CADA.triples_disease_gene import triples_disease_gene
-
+from CADA.split import split
 logger = logging.getLogger(__name__)
 
 def embeddings(
         *,
         node_disease : bool,
         node_gene : bool,
-        disease_hpoteam = bool,
-        gene_frequent: bool,
         train_size : float,
         dimensions: int,
         walk_length: int,
@@ -58,19 +55,18 @@ def embeddings(
     if node_disease:
         # get triples of disease-hpo 'is_feature_of_disease' relationships
         logger.info(f'Adding disease-hpo relationships')
-        disease_hpo_triples = triples_disease_hpo(disease_hpoteam)
+        disease_hpo_triples = triples_disease_hpo()
         triples += disease_hpo_triples
     if node_gene:
         # get triples of gene-hpo 'is_feature_of_gene' relationships
         logger.info(f'Adding gene-hpo relationships.')
-        gene_hpo_triples = triples_gene_hpo(gene_frequent)
+        gene_hpo_triples = triples_gene_hpo()
         triples += gene_hpo_triples
     if node_disease and node_gene:
         # get triples of disease-gene 'mutation_contributes_to_disease' relationships
         logger.info(f'Adding disease-gene relationships')
         disease_gene_triples = triples_disease_gene()
         triples += disease_gene_triples
-
 
     output_directory = os.path.join(MODEL_DIRECTORY, output_directory)
     embedding_outdir = os.path.join(output_directory, 'node2vec.embeddings')
@@ -80,7 +76,6 @@ def embeddings(
     train_patients_triples = triples_patients(node_gene, node_disease, train)
     triples += train_patients_triples
     logger.info(f'Patients train_size: {train_size}')
-
 
     # Save triples
     all_triples_tsv = os.path.join(MODEL_DIRECTORY, output_directory, 'all.triples')
@@ -117,14 +112,14 @@ def embeddings(
     logger.info(f'Number of nodes of genes: {len(nodes_gene)}')
     logger.info(f'Number of nodes of disease: {len(nodes_disease)}')
     logger.info(f'Number of nodes of patient: {len(nodes_patient)}')
-    logger.info(f'Number of nodes of edges: {G.number_of_edges()}')
+    logger.info(f'Number of edges: {G.number_of_edges()}')
 
 
     Gcc = sorted(nx.connected_components(G), key=len, reverse=True)
     G0 = G.subgraph(Gcc[0])
 
-    node2vec = Node2Vec(G0, dimensions=dimensions, walk_length=walk_length, num_walks=num_walks, workers=1, p=p, q=q)
-    model = node2vec.fit(window=window, min_count=1, batch_words=4)
-    model.wv.save_word2vec_format(embedding_outdir)
-    model.save(model_outdir)
+    # node2vec = Node2Vec(G0, dimensions=dimensions, walk_length=walk_length, num_walks=num_walks, workers=1, p=p, q=q)
+    # model = node2vec.fit(window=window, min_count=1, batch_words=4)
+    # model.wv.save_word2vec_format(embedding_outdir)
+    # model.save(model_outdir)
 

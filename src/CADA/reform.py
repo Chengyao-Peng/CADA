@@ -1,9 +1,10 @@
-import os
 import json
-import pandas as pd
 import numpy as np
-from CADA.paths import DATA_DIRECTORY
+import os
+import pandas as pd
 import pickle
+from CADA.paths import DATA_DIRECTORY
+from CADA.disease_gene_mapping import disease_gene, gene_disease
 
 __all__ = [
     'reform_f2g_fm',
@@ -13,12 +14,19 @@ __all__ = [
     'reform_genetikum',
     'reform_pki',
     'reform_tubingen',
-    'reform_clinvar'
+    'reform_clinvar',
+    'reform_berlin'
 ]
-
 with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'hpo_old_new.dict'), 'rb') as handle:
     hpo_dict = pickle.load(handle)
-
+with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'gene_name_id.dict'), 'rb') as handle:
+    gene_name_id = pickle.load(handle)
+with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'omim_id_name.dict'), 'rb') as handle:
+    omim_id_name = pickle.load(handle)
+with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'hpo_id_name.dict'), 'rb') as handle:
+    hpo_id_name = pickle.load(handle)
+with open(os.path.join(DATA_DIRECTORY, 'processed', 'hpo', 'gene-hpo', 'genes.list'), 'rb') as handle:
+    gene_list = pickle.load(handle)
 
 def reform_f2g_fm():
     from_file = 'fm_benchmarking'
@@ -228,13 +236,12 @@ def reform_tubingen():
                 patients.append([case, disease, gene, features_line, submitter, from_file])
             else:
                 unknown_gene += 1
-        print(unknown_gene)
     return patients
 
 
 def reform_clinvar():
     patients = []
-    input_clinvar = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'clinvar', 'clinvar_submissions_training.tsv')
+    input_clinvar = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'clinvar', 'clinvar_submissions_all.tsv')
     with open(input_clinvar, 'r') as infile:
         content = infile.read().splitlines()[1:]
         patients_old = [x.split('\t') for x in content]
@@ -244,4 +251,27 @@ def reform_clinvar():
             patient[3] = features_line
             patients.append(patient)
     return patients
+
+def reform_berlin():
+    patients = []
+    input_berlin = os.path.join(DATA_DIRECTORY, 'raw', 'patients', 'berlin', 'patient.txt')
+    with open(input_berlin, 'r') as infile:
+        case_number = 0
+        content = infile.read().splitlines()
+        patients_old = [x.split('\t') for x in content]
+        for patient in patients_old:
+            case_number += 1
+            case = 'Patient:berlin_' + str(case_number)
+            gene = gene_name_id[patient[0]]
+            disease = 'unknown'
+            submitter = 'berlin'
+            from_file = 'berlin'
+            hpos_list = patient[1].split('; ')
+            feature_line = ','.join([hpo_dict.get(feature, feature) for feature in hpos_list])
+            patients.append([case, disease, gene, feature_line, submitter, from_file])
+    return patients
+
+
+
+
 

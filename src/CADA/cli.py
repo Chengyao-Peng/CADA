@@ -10,7 +10,6 @@ from typing import TextIO
 from CADA.paths import MODEL_DIRECTORY
 from CADA.embeddings import embeddings
 from CADA.prioritizing import prioritizing
-from CADA.prioritizing_from_disease import prioritizing_from_disease
 
 __all__ = [
     'main',

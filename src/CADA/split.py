@@ -7,12 +7,17 @@ from CADA.paths import DATA_DIRECTORY
 from CADA.reform import *
 from CADA.disease_gene_mapping import disease_gene, gene_disease
 
+with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'hpo_old_new.dict'), 'rb') as handle:
+    hpo_dict = pickle.load(handle)
 with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'gene_id_name.dict'), 'rb') as handle:
     gene_id_name = pickle.load(handle)
 with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'omim_id_name.dict'), 'rb') as handle:
     omim_id_name = pickle.load(handle)
 with open(os.path.join(DATA_DIRECTORY, 'processed', 'ids', 'hpo_id_name.dict'), 'rb') as handle:
     hpo_id_name = pickle.load(handle)
+with open(os.path.join(DATA_DIRECTORY, 'processed', 'hpo', 'gene-hpo', 'genes.list'), 'rb') as handle:
+    gene_list = pickle.load(handle)
+
 
 def split(train_size, output_directory):
     out_all_csv = os.path.join(output_directory, 'patient.tsv')
@@ -29,10 +34,14 @@ def split(train_size, output_directory):
     patients += reform_pki()
     patients += reform_tubingen()
     patients += reform_clinvar()
+    patients += reform_berlin()
 
     patients = filter_identical_patients(patients)
     patients = final_preprocessing(patients)
     patients = filter_only_disease(patients)
+    patients = filter_gene_not_included(patients)
+    patients = update_hpo(patients)
+    patients = remove_BRCA1(patients)
     save_patient(out_all_csv, out_all_excel, patients)
 
     if train_size == 0:
@@ -55,6 +64,13 @@ def split(train_size, output_directory):
         test = test.values.tolist()
 
     return train, test
+
+def remove_BRCA1(patients):
+    for patient in patients:
+        gene = patient[2]
+        if gene == 'Entrez:672' or gene == 'Entrez:675':
+            patients.remove(patient)
+    return patients
 
 
 def final_preprocessing(patients):
@@ -87,7 +103,6 @@ def final_preprocessing(patients):
     return patients
 
 
-
 def filter_identical_patients(patients):
     filtered_patients = {}
     list_filtered_patients = []
@@ -101,6 +116,14 @@ def filter_identical_patients(patients):
         item = [key] + value
         list_filtered_patients.append(item)
     return list_filtered_patients
+
+def update_hpo(patients):
+    for patient in patients:
+        features = patient[3].split(',')
+        updated_features = [hpo_dict.get(feature, feature) for feature in features]
+        features_line = ','.join(updated_features)
+        patient[3] = features_line
+    return patients
 
 
 def save_patient(out_all_csv, out_all_excel, patients):
@@ -135,3 +158,10 @@ def filter_only_disease(patients):
             filtered_patients.append(patient)
     return filtered_patients
 
+
+def filter_gene_not_included(patients):
+    filtered_patients = []
+    for patient in patients:
+        if patient[2] in gene_list:
+            filtered_patients.append(patient)
+    return filtered_patients

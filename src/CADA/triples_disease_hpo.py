@@ -6,15 +6,15 @@ from CADA.paths import DATA_DIRECTORY
 import pandas as pd
 
 
-def triples_disease_hpo(hpoteam):
+def triples_disease_hpo():
     predicate = 'is_feature_of_disease'
     triples = []
-    if hpoteam:
-        in_file = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'disease-hpo', 'phenotype_annotation_hpoteam.tab')
-        out_file = os.path.join(DATA_DIRECTORY, 'processed', 'hpo', 'disease-hpo', 'disease-hpo_hpoteam.triples')
-    else:
-        in_file = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'disease-hpo', 'phenotype_annotation.tab')
-        out_file = os.path.join(DATA_DIRECTORY, 'processed', 'hpo', 'disease-hpo', 'diseases-hpo.triples')
+    # if hpoteam:
+    #     in_file = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'disease-hpo', 'phenotype_annotation_hpoteam.tab')
+    #     out_file = os.path.join(DATA_DIRECTORY, 'processed', 'hpo', 'disease-hpo', 'disease-hpo_hpoteam.triples')
+    # else:
+    in_file = os.path.join(DATA_DIRECTORY, 'raw', 'hpo', 'disease-hpo', 'phenotype_annotation.tab')
+    out_file = os.path.join(DATA_DIRECTORY, 'processed', 'hpo', 'disease-hpo', 'diseases-hpo.triples')
 
     with open(out_file, 'w') as outfile:
         df = pd.read_csv(in_file, sep ='\t', header=None).applymap(str)
