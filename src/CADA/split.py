@@ -41,7 +41,7 @@ def split(train_size, output_directory):
     patients = filter_only_disease(patients)
     patients = filter_gene_not_included(patients)
     patients = update_hpo(patients)
-    patients = remove_BRCA1(patients)
+    patients = remove_BRCA(patients)
     save_patient(out_all_csv, out_all_excel, patients)
 
     if train_size == 0:
@@ -65,12 +65,15 @@ def split(train_size, output_directory):
 
     return train, test
 
-def remove_BRCA1(patients):
+def remove_BRCA(patients):
+    patients_return = []
     for patient in patients:
         gene = patient[2]
         if gene == 'Entrez:672' or gene == 'Entrez:675':
-            patients.remove(patient)
-    return patients
+            pass
+        else:
+            patients_return.append(patient)
+    return patients_return
 
 
 def final_preprocessing(patients):
