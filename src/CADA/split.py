@@ -58,11 +58,12 @@ def split(train_size, output_directory):
             writer.writerows(train)
     else:
         train, test = train_test_split(patients, train_size=train_size)
-        train.to_csv(out_train, index=False, header=None, sep='\t')
-        test.to_csv(out_test, index=False, header=None, sep='\t')
-        train = train.values.tolist()
-        test = test.values.tolist()
-
+        with open(out_train, "w", newline = "") as train_f:
+            writer = csv.writer(train_f, delimiter='\t')
+            writer.writerows(train)
+        with open(out_test, "w", newline = "") as test_f:
+            writer = csv.writer(test_f, delimiter='\t')
+            writer.writerows(test)
     return train, test
 
 def remove_BRCA1(patients):
