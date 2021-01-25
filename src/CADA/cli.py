@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 
-@click.option('--hpo_terms', type=click.STRING, required=True, help='a string of HPO terms. Terms should be separated by a comma (e.g., HP:0000573,HP:0001102,HP:0003115)')
+@click.option('--hpo_terms', type=click.STRING, required=True, help='a string of comma-separated HPO terms.HPO terms')
 @click.option('--weighted', type=click.BOOL, default=False, help='use weighted knowledge graph ')
 @click.option('--topn', type=click.IntRange(min=1), default=100, help='the number of output prioritized genes')
 @click.option('--out_dir', type=click.Path(), help='an output file')

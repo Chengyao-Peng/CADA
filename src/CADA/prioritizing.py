@@ -52,7 +52,10 @@ def prioritizing(hpo_terms, model_path, graph_path, out_dir, topn):
     pathlib.Path(out_dir).mkdir(parents=True, exist_ok=True)
     out_file = os.path.join(out_dir, 'result.txt')
     with open(out_file, 'w') as result_tsv:
+        rank = 0
+        result_tsv.write("%s\t%s\t%s\t%s\n" % ('rank', 'gene_id', 'gene_name', 'score'))
         for key in topn_genes.keys():
-            result_tsv.write("%s\t%s\t%s\n" % (key, gene_id_name[key], topn_genes[key]))
+            rank+=1
+            result_tsv.write("%s\t%s\t%s\t%s\n" % (rank,key, gene_id_name[key], topn_genes[key]))
 
 
