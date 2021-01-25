@@ -1,12 +1,12 @@
 # CADA
 CADA (**C**ase **A**nnotations and **D**isease **D**nnotations)  is a phenotype-driven gene prioritization tool for rare syndromes. The tool utilizes both disease-level annotations from Human Phenotype Ontology (HPO) and clinical cases-level annotations to construct a gene-phenotype association network. Later, by applying network representation learning method on the network, disease-causing genes are prioritized by a link prediction task.
 
-This tool was developed during the master's thesis of `Chengyao Peng <https://github.com/Chengyao-Peng>`_.
+This tool was developed during the master's thesis of Chengyao Peng <https://github.com/Chengyao-Peng>.
 
        
 ## Installation
 
-``CADA`` can be installed locally from the code on `GitHub <https://github.com/Chengyao-Peng/CADA>`_ with:
+``CADA`` can be installed locally with:
 ```
     $ git clone https://github.com/Chengyao-Peng/CADA.git
     $ cd CADA
