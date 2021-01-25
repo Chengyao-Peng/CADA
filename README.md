@@ -1,51 +1,48 @@
-#CADA
-==============================
+# CADA
+CADA (**C**ase **A**nnotations and **D**isease **D**nnotations)  is a phenotype-driven gene prioritization tool for rare syndromes. The tool utilizes both disease-level annotations from Human Phenotype Ontology (HPO) and clinical cases-level annotations to construct a gene-phenotype association network. Later, by applying network representation learning method on the network, disease-causing genes are prioritized by a link prediction task.
 
-A short description of the project.
+This tool was developed during the master's thesis of `Chengyao Peng <https://github.com/Chengyao-Peng>`_.
 
-Project Organization
-------------
+       
+## Installation
 
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+``CADA`` can be installed locally from the code on `GitHub <https://github.com/Chengyao-Peng/CADA>`_ with:
+```
+    $ git clone https://github.com/Chengyao-Peng/CADA.git
+    $ cd CADA
+    $ pip install -e . 
+```
+ 
+## CLI Usage 
+### Arguments:
+#### Required:
+```
+  --hpo_terms        a string of comma-separated HPO terms.
+```
+#### Optional:
+```
+  --weighted        use weighted knowledge graph
+  --topn            the number of wanted output prioritized genes
+  --out_dir         an output file
+```
+### Example run:
+```
+CADA --out_dir cada_result --hpo_terms HP:0000573,HP:0001102,HP:0003115,HP:0001681,HP:0008067,HP:0004417 --weighted False --topn 10
+```
+### Output result file
+The out result file from the example run will at 'cada_result/result.txt'.
+```
+rank    gene_id gene_name       score
+1       Entrez:368      ABCC6   84.62940470377605
+2       Entrez:5167     ENPP1   69.57813326517741
+3       Entrez:54790    TET2    57.23555533091227
+4       Entrez:64132    XYLT2   57.030126889546715
+5       Entrez:3949     LDLR    55.80375734965006
+6       Entrez:64240    ABCG5   53.74869124094645
+7       Entrez:348      APOE    53.691530545552574
+8       Entrez:462      SERPINC1        51.44988568623861
+9       Entrez:255738   PCSK9   50.51583385467529
+10      Entrez:2162     F13A1   50.0550905863444
+```
+
 
