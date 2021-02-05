@@ -1,0 +1,6 @@
+{'dimensions': 300,
+ 'walk_length': 60,
+ 'num_walks': 10,
+ 'window_size': 4,
+ 'p': 1.7987535798694703,
+ 'q': 3.875406134463754}
