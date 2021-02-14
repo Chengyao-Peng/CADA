@@ -3,6 +3,8 @@ CADA (**C**ase **A**nnotations and **D**isease **D**nnotations)  is a phenotype-
 
 This tool was developed during the master's thesis of Chengyao Peng <https://github.com/Chengyao-Peng>.
 
+The case data used in CADA is in `data/processed/cases/`. There you can find all cases in `all_cases.tsv`, which consist of cases from Clinvar in `clinvar_cases.tsv` and cases from our collaborators in `collaborator_cases.tsv`. All cases are splitted into sets of training `cases_train.tsv`, validation `cases_validate.tsv` and test `cases_test.tsv` with the ratios 60%, 20% and 20%.
+
        
 ## Installation
 
@@ -44,5 +46,7 @@ rank    gene_id gene_name       score
 9       Entrez:255738   PCSK9   50.51583385467529
 10      Entrez:2162     F13A1   50.0550905863444
 ```
+## Web Server
+We also provide a [Web Server](https://cada.gene-talk.de/webservice)
 
 
