@@ -3,6 +3,7 @@ CADA (**C**ase **A**nnotations and **D**isease **D**nnotations)  is a phenotype-
 
 This tool was developed during the master's thesis of Chengyao Peng <https://github.com/Chengyao-Peng>.
 
+## Underlying data
 The case data used in CADA is in `data/processed/cases/`. There you can find all cases in `all_cases.tsv`, which consist of cases from Clinvar in `clinvar_cases.tsv` and cases from our collaborators in `collaborator_cases.tsv`. All cases are splitted into sets of training `cases_train.tsv`, validation `cases_validate.tsv` and test `cases_test.tsv` with the ratios 60%, 20% and 20%.
 
        
