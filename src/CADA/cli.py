@@ -3,10 +3,12 @@
 """Command line interface for CADA."""
 
 import os
+import json
 import click
 import logging
 from .paths import MODEL_DIRECTORY, DATA_DIRECTORY
 from .prioritizing import prioritizing
+from.embeddings import embeddings
 
 __all__ = [
     'main',
@@ -26,14 +28,16 @@ def main(out_dir, hpo_terms, weighted, topn):
     # choose unweighted or weighted model and knowledge graph
     if weighted:
         graph_path = os.path.join(DATA_DIRECTORY, 'processed', 'knowledge_graph', 'weighted', 'train100.gpickle')
-        model_path= os.path.join(MODEL_DIRECTORY, 'weighted', 'weighted.model')
+        model_path= os.path.join(MODEL_DIRECTORY, 'weighted', 'node2vec.model')
 
     else:
-        model_path= os.path.join(MODEL_DIRECTORY, 'unweighted', 'unweighted.model')
+        model_path= os.path.join(MODEL_DIRECTORY, 'unweighted', 'node2vec.model')
         graph_path = os.path.join(DATA_DIRECTORY, 'processed', 'knowledge_graph', 'unweighted', 'train100.gpickle')
 
     # prioritizing based on provided hpo terms
     prioritizing(hpo_terms, model_path, graph_path, out_dir, topn)
+
+
 
 if __name__ == '__main__':
     main()
