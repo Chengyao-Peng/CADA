@@ -50,4 +50,5 @@ rank    gene_id gene_name       score
 ## Web Server
 We also provide a CADA [Web Server](https://cada.gene-talk.de/webservice).
 
-
+## License
+See the [LICENSE](LICENSE.md) file for license rights and limitations (GNU GPLv3).
