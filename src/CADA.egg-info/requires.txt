@@ -1,0 +1,16 @@
+pathlib
+click
+pronto==2.3.2
+pandas
+numpy
+statistics
+networkx
+matplotlib
+seaborn
+joblib
+node2vec
+progress
+tqdm
+requests
+gensim==3.8.3
+docutils<0.16

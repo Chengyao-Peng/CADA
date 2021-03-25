@@ -28,12 +28,10 @@ def prioritizing(hpo_terms, model_path, graph_path, out_dir, topn):
     for node in list(graph.nodes()):
         if node.startswith("Entrez:"):
             gene = node
-            gene_emb = model.wv[gene]
             gene_scores = []
             for feature in features:
                 try:
-                    feature_emb = model.wv[feature]
-                    score = np.dot(feature_emb, gene_emb)
+                    score = model.similarity(feature, gene)
                     gene_scores.append(score)
                 except KeyError as e:
                     print('"%s". Please change the term to another one or delete it.'  % str(e))
