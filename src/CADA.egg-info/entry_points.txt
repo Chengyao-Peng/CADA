@@ -1,3 +1,0 @@
-[console_scripts]
-CADA = CADA.cli:main
-
