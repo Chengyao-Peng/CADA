@@ -43,7 +43,7 @@ def prioritizing(hpo_terms, model_path, graph_path, out_dir, topn):
     topn_genes = {k: prioritized_dict[k] for k in list(prioritized_dict)[:topn]}
 
     # save result to the output directory
-    gene_id_name_dict = c
+    gene_id_name_dict = os.path.join(DATA_DIRECTORY, 'raw', 'ids', 'gene_id_name.dict')
     with open(gene_id_name_dict, 'rb') as handle:
         gene_id_name = pickle.load(handle)
 
