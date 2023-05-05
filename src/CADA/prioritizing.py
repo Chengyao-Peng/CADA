@@ -42,7 +42,10 @@ def prioritizing(hpo_terms, model_path, graph_path, out_dir, topn):
     prioritized_dict = dict(sorted(genes_scores_dict.items(), reverse=True, key=lambda item: item[1]))
 
     # prioritized_list = sorted(genes_scores_dict, reverse=True, key=genes_scores_dict.__getitem__)
-    topn_genes = {k: prioritized_dict[k] for k in list(prioritized_dict)[:topn]}
+    prioritized_list = list(prioritized_dict)
+    if topn:
+        prioritized_list = prioritized_list[:topn]
+    topn_genes = {k: prioritized_dict[k] for k in prioritized_list}
 
     # save result to the output directory
     gene_id_name_dict = os.path.join(DATA_DIRECTORY, 'raw', 'ids', 'gene_id_name.dict')

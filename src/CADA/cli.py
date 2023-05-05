@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 @click.option('--hpo_terms', type=click.STRING, required=True, help='a string of comma-separated HPO terms.HPO terms')
 @click.option('--weighted', type=click.BOOL, default=False, help='use weighted knowledge graph ')
-@click.option('--topn', type=click.IntRange(min=1), default=100, help='the number of output prioritized genes')
+@click.option('--topn', type=click.IntRange(min=0), default=0, help='the number of output prioritized genes')
 @click.option('--out_dir', type=click.Path(), help='an output file')
 
 def main(out_dir, hpo_terms, weighted, topn):
