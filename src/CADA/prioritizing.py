@@ -56,6 +56,6 @@ def prioritizing(hpo_terms, model_path, graph_path, out_dir, topn):
         result_tsv.write("%s\t%s\t%s\t%s\n" % ('rank', 'gene_id', 'gene_name', 'score'))
         for key in topn_genes.keys():
             rank+=1
-            result_tsv.write("%s\t%s\t%s\t%s\n" % (rank,key, gene_id_name[key], topn_genes[key]))
+            result_tsv.write("%s\t%s\t%s\t%s\n" % (rank,key, gene_id_name.get(key, "."), topn_genes[key]))
 
 
